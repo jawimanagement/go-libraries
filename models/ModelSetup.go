@@ -2,7 +2,6 @@ package models
 
 import (
 	"gorm.io/driver/mysql"
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
 	//arango "github.com/joselitofilho/gorm-arango/pkg"
@@ -28,15 +27,22 @@ var ActiveUser string
 var DbConnection *gorm.DB
 
 var OpenDB *gorm.DB
-var mysqlDB *mysql.Config
 
 func DbConnect() (*sql.DB, *gorm.DB, error) {
 	//mysql connection
+	// dsn := "root:pass@tcp(127.0.0.1:3306)/dewan?charset=utf8mb3&parseTime=True&loc=Asia/Jakarta"
 	configDbMaster := os.Getenv("masterDsn")
-	sqlDB, err := sql.Open("pgx", configDbMaster)
-	dbMaster, err := gorm.Open(postgres.New(postgres.Config{
-		Conn:                 sqlDB,
-		PreferSimpleProtocol: true,
+	sqlDB, err := sql.Open("mysql", configDbMaster)
+	if err != nil {
+		return nil, nil, fmt.Errorf(fmt.Sprintf("%s", err))
+	}
+	dbMaster, err := gorm.Open(mysql.New(mysql.Config{
+		DSN:                       configDbMaster,
+		DefaultStringSize:         255,
+		DisableDatetimePrecision:  true,
+		DontSupportRenameIndex:    true,
+		DontSupportRenameColumn:   true,
+		SkipInitializeWithVersion: false,
 	}), &gorm.Config{
 		Logger:      logger.Default.LogMode(logger.Info),
 		QueryFields: true,
@@ -46,7 +52,7 @@ func DbConnect() (*sql.DB, *gorm.DB, error) {
 		},
 	})
 	if err != nil {
-		return nil, nil, fmt.Errorf("Master Database Connection Error")
+		return nil, nil, fmt.Errorf(fmt.Sprintf("master database connection error : %s", err))
 	}
 	sqlDB.SetMaxIdleConns(100)
 	// SetMaxOpenConns sets the maximum number of open connections to the database.
