@@ -54,6 +54,9 @@ func DbConnect() (*sql.DB, *gorm.DB, error) {
 	if err != nil {
 		return nil, nil, fmt.Errorf(fmt.Sprintf("master database connection error : %s", err))
 	}
+	// prevent global updates
+	dbMaster.Session(&gorm.Session{AllowGlobalUpdate: false})
+
 	sqlDB.SetMaxIdleConns(100)
 	// SetMaxOpenConns sets the maximum number of open connections to the database.
 	sqlDB.SetMaxOpenConns(100000)
