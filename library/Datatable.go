@@ -11,10 +11,6 @@ import (
 	"gorm.io/gorm"
 )
 
-//ykzirla
-//DV8uJq2UWP6BgNa
-//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
-
 type DataTableConfig struct {
 	Primary    string
 	Where      string
