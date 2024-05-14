@@ -52,7 +52,7 @@ func DbConnect() (*sql.DB, *gorm.DB, error) {
 	// SetMaxOpenConns sets the maximum number of open connections to the database.
 	sqlDB.SetMaxOpenConns(100000)
 	// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
-	sqlDB.SetConnMaxLifetime(2 * time.Minute)
+	// sqlDB.SetConnMaxLifetime(2 * time.Minute)
 	OpenDB = dbMaster
 	return sqlDB, dbMaster, nil
 }
