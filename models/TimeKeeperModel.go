@@ -11,9 +11,11 @@ type TimeKeeperModel struct {
 	EventID    NullString `gorm:"event_id" json:"event_id"`
 	KategoriID NullString `gorm:"kategori_id" json:"kategori_id"`
 	JadwalID   NullString `gorm:"column:jadwal_id" json:"jadwal_id"`
+	GroupID    NullString `gorm:"column:group_id" json:"group_id"`
 	Arena      int        `gorm:"column:arena" json:"arena"`
 	Round      int        `gorm:"column:round;default:0" json:"round"`
 	Status     int        `gorm:"column:status;default:0" json:"status"`
+	Result     int16      `gorm:"column:result;default:0" json:"result"`
 	StartAt    *time.Time `gorm:"column:start_at" json:"start_at"`
 	StopAt     *time.Time `gorm:"column:stop_at" json:"stop_at"`
 	PausedAt   string     `gorm:"column:paused_at" json:"paused_at"`
@@ -24,7 +26,7 @@ type TimeKeeperModel struct {
 }
 
 func (p *TimeKeeperModel) TableName() string {
-	return "temp_time_keeper"
+	return "time_keeper"
 }
 
 func (p *TimeKeeperModel) BeforeCreate(tx *gorm.DB) (err error) {

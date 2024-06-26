@@ -9,7 +9,7 @@ import (
 type BakuJudgeScoreModel struct {
 	ID           string     `gorm:"column:id;primary_key" json:"id"`
 	JadwalBakuID NullString `gorm:"column:jadwal_baku_id" json:"jadwal_baku_id"`
-	JuriID       NullString `gorm:"column:juri_id" json:"juri_id"`
+	GroupID      NullString `gorm:"column:group_id" json:"group_id"`
 	Jurus1       NullString `gorm:"column:jurus1;default:0" json:"jurus1"`
 	Jurus2       NullString `gorm:"column:jurus2;default:0" json:"jurus2"`
 	Jurus3       NullString `gorm:"column:jurus3;default:0" json:"jurus3"`
@@ -31,7 +31,7 @@ type BakuJudgeScoreModel struct {
 }
 
 func (p *BakuJudgeScoreModel) TableName() string {
-	return "temp_baku_judge_score"
+	return "baku_judge_score"
 }
 
 func (p *BakuJudgeScoreModel) BeforeCreate(tx *gorm.DB) (err error) {

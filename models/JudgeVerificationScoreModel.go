@@ -7,20 +7,20 @@ import (
 )
 
 type JudgeVerificationScoreModel struct {
-	ID              string     `gorm:"column:id;primary_key" json:"id"`
-	JadwalTandingID NullString `gorm:"column:jadwal_tanding_id" json:"jadwal_tanding_id"`
-	NilaiID         NullString `gorm:"column:nilai_id" json:"nilai_id"`
-	Corner          int        `gorm:"column:corner" json:"corner"`
-	Round           int        `gorm:"column:round" json:"round"`
-	Status          int        `gorm:"column:status;default:0" json:"status"`
-	CreatedAt       *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy       NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt       *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy       NullString `gorm:"column:updated_by" json:"updated_by"`
+	ID        string     `gorm:"column:id;primary_key" json:"id"`
+	JadwalID  NullString `gorm:"column:jadwal_id" json:"jadwal_id"`
+	NilaiID   NullString `gorm:"column:nilai_id" json:"nilai_id"`
+	Corner    int        `gorm:"column:corner" json:"corner"`
+	Round     int        `gorm:"column:round" json:"round"`
+	Status    int        `gorm:"column:status;default:0" json:"status"`
+	CreatedAt *time.Time `gorm:"column:created_at" json:"created_at"`
+	CreatedBy NullString `gorm:"column:created_by" json:"created_by"`
+	UpdatedAt *time.Time `gorm:"column:updated_at" json:"updated_at"`
+	UpdatedBy NullString `gorm:"column:updated_by" json:"updated_by"`
 }
 
 func (p *JudgeVerificationScoreModel) TableName() string {
-	return "temp_judge_verification_score"
+	return "judge_verification_score"
 }
 
 func (p *JudgeVerificationScoreModel) BeforeCreate(tx *gorm.DB) (err error) {
