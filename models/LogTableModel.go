@@ -13,7 +13,6 @@ type LogTableModel struct {
 	Value       NullString `gorm:"column:value" json:"value"`
 	Status      int        `gorm:"column:status;default:1" json:"status"`
 	CreatedAt   *time.Time `gorm:"column:created_at" json:"created_at"`
-	UpdatedBy   NullString `gorm:"column:updated_by" json:"updated_by"`
 }
 
 func (p *LogTableModel) TableName() string {
