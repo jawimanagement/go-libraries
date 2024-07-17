@@ -28,6 +28,7 @@ type JadwalModel struct {
 	ScheduleLevel  int16      `gorm:"schedule_level" json:"schedule_level"`
 	Score          NullString `gorm:"column:score" json:"score"`
 	Status         int        `gorm:"column:status" json:"status"`
+	ScheduleType   int        `gorm:"column:schedule_type;default:1" json:"schedule_type"`
 	IsReleased     int        `gorm:"column:is_released;default:0" json:"is_released"`
 	Winner         NullString `gorm:"column:winner" json:"winner"`
 	WinBy          int        `gorm:"column:win_by" json:"win_by"`
