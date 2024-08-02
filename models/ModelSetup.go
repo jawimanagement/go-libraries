@@ -21,49 +21,6 @@ var DbConnection *gorm.DB
 
 var OpenDB *gorm.DB
 
-func DbConnect() (*sql.DB, *gorm.DB, error) {
-
-	err := godotenv.Load()
-	if err != nil {
-		return nil, nil, fmt.Errorf("Error loading .env file")
-	}
-	//mysql connection
-	// dsn := "root:pass@tcp(127.0.0.1:3306)/dewan?charset=utf8mb3&parseTime=True&loc=Asia/Jakarta"
-	configDbMaster := os.Getenv("masterDsn")
-	sqlDB, err := sql.Open("mysql", configDbMaster)
-	if err != nil {
-		return nil, nil, fmt.Errorf(fmt.Sprintf("%s", err))
-	}
-	dbMaster, err := gorm.Open(mysql.New(mysql.Config{
-		DSN:                       configDbMaster,
-		DefaultStringSize:         255,
-		DisableDatetimePrecision:  true,
-		DontSupportRenameIndex:    true,
-		DontSupportRenameColumn:   true,
-		SkipInitializeWithVersion: false,
-	}), &gorm.Config{
-		Logger:      logger.Default.LogMode(logger.Info),
-		QueryFields: true,
-		NowFunc: func() time.Time {
-			loc, _ := time.LoadLocation("Asia/Jakarta")
-			return time.Now().In(loc)
-		},
-	})
-	if err != nil {
-		return nil, nil, fmt.Errorf(fmt.Sprintf("master database connection error : %s", err))
-	}
-	// prevent global updates
-	dbMaster.Session(&gorm.Session{AllowGlobalUpdate: false})
-
-	sqlDB.SetMaxIdleConns(100)
-	// SetMaxOpenConns sets the maximum number of open connections to the database.
-	sqlDB.SetMaxOpenConns(100000)
-	// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
-	// sqlDB.SetConnMaxLifetime(2 * time.Minute)
-	OpenDB = dbMaster
-	return sqlDB, dbMaster, nil
-}
-
 func JawiConnect() (*sql.DB, *gorm.DB, error) {
 
 	err := godotenv.Load()
@@ -107,7 +64,7 @@ func JawiConnect() (*sql.DB, *gorm.DB, error) {
 	return sqlDB, dbMaster, nil
 }
 
-func DewanConnect() (*sql.DB, *gorm.DB, error) {
+func JawiLiveConnect() (*sql.DB, *gorm.DB, error) {
 
 	err := godotenv.Load()
 	if err != nil {
@@ -115,7 +72,7 @@ func DewanConnect() (*sql.DB, *gorm.DB, error) {
 	}
 	//mysql connection
 	// dsn := "root:pass@tcp(127.0.0.1:3306)/dewan?charset=utf8mb3&parseTime=True&loc=Asia/Jakarta"
-	configDbMaster := os.Getenv("dewanDsn")
+	configDbMaster := os.Getenv("jawiLiveDsn")
 	sqlDB, err := sql.Open("mysql", configDbMaster)
 	if err != nil {
 		return nil, nil, fmt.Errorf(fmt.Sprintf("%s", err))
@@ -136,7 +93,7 @@ func DewanConnect() (*sql.DB, *gorm.DB, error) {
 		},
 	})
 	if err != nil {
-		return nil, nil, fmt.Errorf(fmt.Sprintf("dewan database connection error : %s", err))
+		return nil, nil, fmt.Errorf(fmt.Sprintf("jawi live database connection error : %s", err))
 	}
 	// prevent global updates
 	dbMaster.Session(&gorm.Session{AllowGlobalUpdate: false})
