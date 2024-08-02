@@ -25,7 +25,7 @@ func JawiConnect() (*sql.DB, *gorm.DB, error) {
 
 	err := godotenv.Load()
 	if err != nil {
-		return nil, nil, fmt.Errorf("Error loading .env file")
+		return nil, nil, fmt.Errorf("error loading .env file")
 	}
 	//mysql connection
 	// dsn := "root:pass@tcp(127.0.0.1:3306)/dewan?charset=utf8mb3&parseTime=True&loc=Asia/Jakarta"
@@ -55,12 +55,12 @@ func JawiConnect() (*sql.DB, *gorm.DB, error) {
 	// prevent global updates
 	dbMaster.Session(&gorm.Session{AllowGlobalUpdate: false})
 
-	sqlDB.SetMaxIdleConns(100)
+	sqlDB.SetMaxIdleConns(1)
 	// SetMaxOpenConns sets the maximum number of open connections to the database.
-	sqlDB.SetMaxOpenConns(100000)
+	sqlDB.SetMaxOpenConns(3)
 	// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
-	// sqlDB.SetConnMaxLifetime(2 * time.Minute)
-	OpenDB = dbMaster
+	sqlDB.SetConnMaxLifetime(15 * time.Second)
+	// OpenDB = dbMaster
 	return sqlDB, dbMaster, nil
 }
 
@@ -68,7 +68,7 @@ func JawiLiveConnect() (*sql.DB, *gorm.DB, error) {
 
 	err := godotenv.Load()
 	if err != nil {
-		return nil, nil, fmt.Errorf("Error loading .env file")
+		return nil, nil, fmt.Errorf("error loading .env file")
 	}
 	//mysql connection
 	// dsn := "root:pass@tcp(127.0.0.1:3306)/dewan?charset=utf8mb3&parseTime=True&loc=Asia/Jakarta"
@@ -98,12 +98,13 @@ func JawiLiveConnect() (*sql.DB, *gorm.DB, error) {
 	// prevent global updates
 	dbMaster.Session(&gorm.Session{AllowGlobalUpdate: false})
 
-	sqlDB.SetMaxIdleConns(100)
+	sqlDB.SetMaxIdleConns(1)
 	// SetMaxOpenConns sets the maximum number of open connections to the database.
-	sqlDB.SetMaxOpenConns(100000)
+	sqlDB.SetMaxOpenConns(3)
 	// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
-	// sqlDB.SetConnMaxLifetime(2 * time.Minute)
-	OpenDB = dbMaster
+	sqlDB.SetConnMaxLifetime(15 * time.Second)
+	// OpenDB = dbMaster
+
 	return sqlDB, dbMaster, nil
 }
 
