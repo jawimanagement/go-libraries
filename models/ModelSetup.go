@@ -4,23 +4,16 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
-	//arango "github.com/joselitofilho/gorm-arango/pkg"
-	// "github.com/arangodb/go-driver/http"
-	// driver "github.com/arangodb/go-driver"
 	"os"
 
 	"gorm.io/gorm/logger"
 
-	//arango "github.com/arangodb/go-driver"
-	// "github.com/arangodb/go-driver/http"
-	"fmt"
-	// "github.com/fatih/structs"
-	// "strings"
-	// "os"
-	"encoding/json"
-	// "reflect"
 	"database/sql"
+	"encoding/json"
+	"fmt"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 var ActiveUser string
@@ -29,6 +22,11 @@ var DbConnection *gorm.DB
 var OpenDB *gorm.DB
 
 func DbConnect() (*sql.DB, *gorm.DB, error) {
+
+	err := godotenv.Load()
+	if err != nil {
+		return nil, nil, fmt.Errorf("Error loading .env file")
+	}
 	//mysql connection
 	// dsn := "root:pass@tcp(127.0.0.1:3306)/dewan?charset=utf8mb3&parseTime=True&loc=Asia/Jakarta"
 	configDbMaster := os.Getenv("masterDsn")
@@ -67,6 +65,11 @@ func DbConnect() (*sql.DB, *gorm.DB, error) {
 }
 
 func JawiConnect() (*sql.DB, *gorm.DB, error) {
+
+	err := godotenv.Load()
+	if err != nil {
+		return nil, nil, fmt.Errorf("Error loading .env file")
+	}
 	//mysql connection
 	// dsn := "root:pass@tcp(127.0.0.1:3306)/dewan?charset=utf8mb3&parseTime=True&loc=Asia/Jakarta"
 	configDbMaster := os.Getenv("jawiDsn")
@@ -105,6 +108,11 @@ func JawiConnect() (*sql.DB, *gorm.DB, error) {
 }
 
 func DewanConnect() (*sql.DB, *gorm.DB, error) {
+
+	err := godotenv.Load()
+	if err != nil {
+		return nil, nil, fmt.Errorf("Error loading .env file")
+	}
 	//mysql connection
 	// dsn := "root:pass@tcp(127.0.0.1:3306)/dewan?charset=utf8mb3&parseTime=True&loc=Asia/Jakarta"
 	configDbMaster := os.Getenv("dewanDsn")
