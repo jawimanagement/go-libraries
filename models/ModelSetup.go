@@ -65,7 +65,6 @@ func JawiConnect() (*sql.DB, *gorm.DB, error) {
 }
 
 func JawiLiveConnect() (*sql.DB, *gorm.DB, error) {
-
 	err := godotenv.Load()
 	if err != nil {
 		return nil, nil, fmt.Errorf("error loading .env file")
