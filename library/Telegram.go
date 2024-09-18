@@ -10,7 +10,7 @@ import (
 	"github.com/jawimanagement/go-libraries/models"
 )
 
-func sendTelegramMessage(chatID, message string) error {
+func Telegram(chatID, message string) error {
 
 	var telegramStruct models.TelegramMessage
 
