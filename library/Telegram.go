@@ -5,16 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/jawimanagement/go-libraries/models"
 )
 
-func Telegram(chatID, message string) error {
+func Telegram(botToken, chatID, message string) error {
 
 	var telegramStruct models.TelegramMessage
 
-	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", os.Getenv("telegramBotToken"))
+	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", botToken)
 
 	telegramStruct.ChatID = chatID
 	telegramStruct.Text = message
