@@ -17,10 +17,8 @@ type InvoiceModel struct {
 	TotalDiscount float64    `gorm:"column:total_discount" json:"total_discount"`
 	AdminFee      float64    `gorm:"column:admin_fee" json:"admin_fee"`
 	SumGrandTotal float64    `gorm:"column:sum_grand_total" json:"sum_grand_total"`
-	CreatedAt     *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy     NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt     *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy     NullString `gorm:"column:updated_by" json:"updated_by"`
+	CreatedFields
+	UpdatedFields
 }
 
 type InvoiceModelResponse struct {
@@ -37,9 +35,14 @@ func (p *InvoiceModelResponse) TableName() string {
 }
 
 func (p *InvoiceModel) BeforeCreate(tx *gorm.DB) (err *error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *InvoiceModel) BeforeUpdate(tx *gorm.DB) (err *error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }

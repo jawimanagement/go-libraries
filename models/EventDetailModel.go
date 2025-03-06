@@ -19,10 +19,8 @@ type EventDetailModel struct {
 	MaxBabak   int        `gorm:"column:max_babak;default:3" json:"max_babak"`
 	INC        int        `gorm:"<-:false;column:inc" json:"inc"`
 	Active     int        `gorm:"column:active;default:1" json:"active"`
-	CreatedAt  *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy  NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt  *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy  NullString `gorm:"column:updated_by" json:"updated_by"`
+	CreatedFields
+	UpdatedFields
 }
 
 type EventDetailModelResponse struct {
@@ -43,9 +41,14 @@ func (p *EventDetailModelResponse) TableName() string {
 }
 
 func (p *EventDetailModel) BeforeCreate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *EventDetailModel) BeforeUpdate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }

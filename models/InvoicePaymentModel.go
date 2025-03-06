@@ -17,10 +17,8 @@ type InvoicePaymentModel struct {
 	PaymentStatus int        `gorm:"column:payment_status;default:0" json:"payment_status"`
 	Notes         NullString `gorm:"column:notes" json:"notes"`
 	ExternalID    NullString `gorm:"column:external_id" json:"external_id"`
-	CreatedAt     *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy     NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt     *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy     NullString `gorm:"column:updated_by" json:"updated_by"`
+	CreatedFields
+	UpdatedFields
 }
 
 type InvoicePaymentModelResponse struct {
@@ -37,9 +35,14 @@ func (p *InvoicePaymentModelResponse) TableName() string {
 }
 
 func (p *InvoicePaymentModel) BeforeCreate(tx *gorm.DB) (err *error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *InvoicePaymentModel) BeforeUpdate(tx *gorm.DB) (err *error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }

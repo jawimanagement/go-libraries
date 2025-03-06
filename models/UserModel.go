@@ -17,10 +17,8 @@ type UserModel struct {
 	Phone            NullString `gorm:"column:phone" json:"phone"`
 	Status           NullInt64  `gorm:"column:status" json:"status"`
 	INC              int        `gorm:"<-:false;column:inc" json:"inc"`
-	CreatedAt        *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy        NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt        *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy        NullString `gorm:"column:updated_by" json:"updated_by"`
+	CreatedFields
+	UpdatedFields
 }
 
 type UserModelResponse struct {
@@ -37,9 +35,14 @@ func (p *UserModelResponse) TableName() string {
 }
 
 func (p *UserModel) BeforeCreate(tx *gorm.DB) (err *error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *UserModel) BeforeUpdate(tx *gorm.DB) (err *error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }

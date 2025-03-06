@@ -21,6 +21,16 @@ var DbConnection *gorm.DB
 
 var OpenDB *gorm.DB
 
+type CreatedFields struct {
+	CreatedAt *time.Time `gorm:"column:created_at" json:"created_at"`
+	CreatedBy NullString `gorm:"column:created_by" json:"created_by"`
+}
+
+type UpdatedFields struct {
+	UpdatedAt *time.Time `gorm:"column:updated_at" json:"updated_at"`
+	UpdatedBy NullString `gorm:"column:updated_by" json:"updated_by"`
+}
+
 func mysqlConfig(configDbMaster string) *mysql.Config {
 
 	config := &mysql.Config{

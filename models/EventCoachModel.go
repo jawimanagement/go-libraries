@@ -7,16 +7,14 @@ import (
 )
 
 type EventCoachModel struct {
-	ID        NullString `gorm:"column:id;primary_key" json:"id"`
-	EventID   NullString `gorm:"column:event_id" json:"event_id"`
-	CoachID   NullString `gorm:"column:coach_id" json:"coach_id"`
-	QRCode    NullString `gorm:"column:qrcode" json:"qrcode"`
-	INC       int        `gorm:"<-:false;column:inc" json:"inc"`
-	Status    int        `gorm:"column:status;default:1" json:"status"`
-	CreatedAt *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy NullString `gorm:"column:updated_by" json:"updated_by"`
+	ID      NullString `gorm:"column:id;primary_key" json:"id"`
+	EventID NullString `gorm:"column:event_id" json:"event_id"`
+	CoachID NullString `gorm:"column:coach_id" json:"coach_id"`
+	QRCode  NullString `gorm:"column:qrcode" json:"qrcode"`
+	INC     int        `gorm:"<-:false;column:inc" json:"inc"`
+	Status  int        `gorm:"column:status;default:1" json:"status"`
+	CreatedFields
+	UpdatedFields
 }
 
 type EventCoachModelResponse struct {
@@ -34,9 +32,14 @@ func (p *EventCoachModelResponse) TableName() string {
 }
 
 func (p *EventCoachModel) BeforeCreate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *EventCoachModel) BeforeUpdate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }

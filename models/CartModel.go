@@ -17,10 +17,8 @@ type CartModel struct {
 	AdditionalID     NullString `gorm:"column:additional_id" json:"additioal_id"`
 	Price            float64    `gorm:"column:price;default:0" json:"price"`
 	Qty              NullInt64  `gorm:"column:qty" json:"qty"`
-	CreatedAt        *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy        NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt        *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy        NullString `gorm:"column:updated_by" json:"updated_by"`
+	CreatedFields
+	UpdatedFields
 }
 
 type CartModelResponse struct {
@@ -40,9 +38,14 @@ func (p *CartModelResponse) TableName() string {
 }
 
 func (p *CartModel) BeforeCreate(tx *gorm.DB) (err *error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *CartModel) BeforeUpdate(tx *gorm.DB) (err *error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }

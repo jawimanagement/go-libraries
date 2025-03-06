@@ -18,10 +18,8 @@ type EventPesertaModel struct {
 	Status           int        `gorm:"column:status;default:0" json:"status"`
 	Paid             int        `gorm:"column:paid;default:0" json:"paid"`
 	InvoicePaymentID NullString `gorm:"column:invoice_payment_id" json:"invoice_payment_id"`
-	CreatedAt        *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy        NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt        *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy        NullString `gorm:"column:updated_by" json:"updated_by"`
+	CreatedFields
+	UpdatedFields
 }
 
 type EventPesertaModelResponse struct {
@@ -42,9 +40,14 @@ func (p *EventPesertaModelResponse) TableName() string {
 }
 
 func (p *EventPesertaModel) BeforeCreate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *EventPesertaModel) BeforeUpdate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }

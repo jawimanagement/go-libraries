@@ -29,10 +29,8 @@ type EventsModel struct {
 	CertificatePrefix NullString `gorm:"column:certificate_prefix" json:"certificate_prefix"`
 	Paid              int        `gorm:"column:paid;default:0" json:"paid"`
 	IDCard            NullString `gorm:"column:id_card;" json:"id_card"`
-	CreatedAt         *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy         NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt         *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy         NullString `gorm:"column:updated_by" json:"updated_by"`
+	CreatedFields
+	UpdatedFields
 }
 
 type EventsModelResponse struct {
@@ -52,9 +50,14 @@ func (p *EventsModelResponse) TableName() string {
 }
 
 func (p *EventsModel) BeforeCreate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *EventsModel) BeforeUpdate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }

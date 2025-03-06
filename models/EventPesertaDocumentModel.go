@@ -16,10 +16,8 @@ type EventPesertaDocumentModel struct {
 	Status      int        `gorm:"column:status;default:0" json:"status"`
 	Description NullString `gorm:"column:description" json:"description"`
 	INC         int        `gorm:"<-:false;column:inc" json:"inc"`
-	CreatedAt   *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy   NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt   *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy   NullString `gorm:"column:updated_by" json:"updated_by"`
+	CreatedFields
+	UpdatedFields
 }
 
 type EventPesertaDocumentModelResponse = EventPesertaDocumentModel
@@ -29,9 +27,14 @@ func (p *EventPesertaDocumentModel) TableName() string {
 }
 
 func (p *EventPesertaDocumentModel) BeforeCreate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *EventPesertaDocumentModel) BeforeUpdate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }

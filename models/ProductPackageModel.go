@@ -12,10 +12,8 @@ type ProductPackageModel struct {
 	Description NullString `gorm:"column:description" json:"description"`
 	Status      int        `gorm:"column:status;default:1" json:"status"`
 	INC         int        `gorm:"<-:false;column:inc" json:"inc"`
-	CreatedAt   *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy   NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt   *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy   NullString `gorm:"column:updated_by" json:"updated_by"`
+	CreatedFields
+	UpdatedFields
 }
 
 type ProductPackageModelResponse = ProductPackageModel
@@ -25,9 +23,14 @@ func (p *ProductPackageModel) TableName() string {
 }
 
 func (p *ProductPackageModel) BeforeCreate(tx *gorm.DB) (err *error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *ProductPackageModel) BeforeUpdate(tx *gorm.DB) (err *error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }

@@ -33,10 +33,8 @@ type JadwalModel struct {
 	Winner         NullString `gorm:"column:winner" json:"winner"`
 	WinBy          int        `gorm:"column:win_by" json:"win_by"`
 	INC            int        `gorm:"column:inc" json:"inc"`
-	CreatedAt      *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy      NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt      *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy      NullString `gorm:"column:updated_by" json:"updated_by"`
+	CreatedFields
+	UpdatedFields
 }
 
 func (p *JadwalModel) TableName() string {
@@ -44,10 +42,15 @@ func (p *JadwalModel) TableName() string {
 }
 
 func (p *JadwalModel) BeforeCreate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *JadwalModel) BeforeUpdate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }
 

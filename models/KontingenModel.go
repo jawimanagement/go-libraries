@@ -7,14 +7,12 @@ import (
 )
 
 type KontingenModel struct {
-	ID        NullString `gorm:"column:id;primary_key" json:"id"`
-	UserID    NullString `gorm:"column:user_id" json:"user_id"`
-	Status    int        `gorm:"column:status;default:1" json:"status"`
-	INC       int        `gorm:"<-:false;column:inc" json:"inc"`
-	CreatedAt *time.Time `gorm:"column:created_at" json:"created_at"`
-	CreatedBy NullString `gorm:"column:created_by" json:"created_by"`
-	UpdatedAt *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	UpdatedBy NullString `gorm:"column:updated_by" json:"updated_by"`
+	ID     NullString `gorm:"column:id;primary_key" json:"id"`
+	UserID NullString `gorm:"column:user_id" json:"user_id"`
+	Status int        `gorm:"column:status;default:1" json:"status"`
+	INC    int        `gorm:"<-:false;column:inc" json:"inc"`
+	CreatedFields
+	UpdatedFields
 }
 
 type KontingenModelResponse struct {
@@ -31,9 +29,14 @@ func (p *KontingenModelResponse) TableName() string {
 }
 
 func (p *KontingenModel) BeforeCreate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.CreatedAt = &now
+	p.UpdatedAt = &now
 	return
 }
 
 func (p *KontingenModel) BeforeUpdate(tx *gorm.DB) (err error) {
+	now := time.Now()
+	p.UpdatedAt = &now
 	return
 }
