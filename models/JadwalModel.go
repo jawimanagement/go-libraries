@@ -13,7 +13,7 @@ type JadwalModel struct {
 	KategoriID     NullString `gorm:"column:kategori_id" json:"kategori_id"`
 	GolonganID     NullString `gorm:"column:golongan_id" json:"golongan_id"`
 	GenderID       NullString `gorm:"column:gender_id" json:"gender_id"`
-	KelasTandingID NullString `gorm:"kelas_id" json:"kelas_id"`
+	KelasTandingID NullString `gorm:"column:kelas_id" json:"kelas_id"`
 	SchemaNumber   int64      `gorm:"column:schema_number" json:"schema_number"`
 	Round          int        `gorm:"column:round;default:1" json:"round"`
 	Cualification  int        `gorm:"column:cualification;default:1" json:"cualification"`
@@ -25,7 +25,7 @@ type JadwalModel struct {
 	BlueCorner     NullString `gorm:"column:blue_corner" json:"blue_corner"`
 	RedBye         int16      `gorm:"column:red_bye" json:"red_bye"`
 	BlueBye        int16      `gorm:"column:blue_bye" json:"blue_bye"`
-	ScheduleLevel  int16      `gorm:"schedule_level" json:"schedule_level"`
+	ScheduleLevel  int16      `gorm:"column:schedule_level" json:"schedule_level"`
 	Score          NullString `gorm:"column:score" json:"score"`
 	Status         int        `gorm:"column:status" json:"status"`
 	ScheduleType   int        `gorm:"column:schedule_type;default:1" json:"schedule_type"`

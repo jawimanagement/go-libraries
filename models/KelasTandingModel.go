@@ -8,11 +8,7 @@ type KelasTandingModel struct {
 	Active int        `gorm:"column:active;default:1" json:"active"`
 }
 
-type KelasTandingModelResponse struct {
-	ID     NullString `gorm:"column:id;primary_key" json:"id"`
-	Name   NullString `gorm:"column:name" json:"name"`
-	Active int        `gorm:"column:active" json:"active"`
-}
+type KelasTandingModelResponse = KelasTandingModel
 
 func (p *KelasTandingModel) TableName() string {
 	return "golongan"
