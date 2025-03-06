@@ -32,6 +32,7 @@ type JadwalModel struct {
 	IsReleased     int        `gorm:"column:is_released;default:0" json:"is_released"`
 	Winner         NullString `gorm:"column:winner" json:"winner"`
 	WinBy          int        `gorm:"column:win_by" json:"win_by"`
+	INC            int        `gorm:"column:inc" json:"inc"`
 	CreatedAt      *time.Time `gorm:"column:created_at" json:"created_at"`
 	CreatedBy      NullString `gorm:"column:created_by" json:"created_by"`
 	UpdatedAt      *time.Time `gorm:"column:updated_at" json:"updated_at"`

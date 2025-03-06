@@ -21,27 +21,37 @@ var DbConnection *gorm.DB
 
 var OpenDB *gorm.DB
 
-func JawiConnect() (*sql.DB, *gorm.DB, error) {
+func mysqlConfig(configDbMaster string) *mysql.Config {
 
-	err := godotenv.Load()
-	if err != nil {
-		return nil, nil, fmt.Errorf("error loading .env file")
-	}
-	//mysql connection
-	// dsn := "root:pass@tcp(127.0.0.1:3306)/dewan?charset=utf8mb3&parseTime=True&loc=Asia/Jakarta"
-	configDbMaster := os.Getenv("jawiDsn")
-	sqlDB, err := sql.Open("mysql", configDbMaster)
-	if err != nil {
-		return nil, nil, fmt.Errorf(fmt.Sprintf("%s", err))
-	}
-	dbMaster, err := gorm.Open(mysql.New(mysql.Config{
+	config := &mysql.Config{
 		DSN:                       configDbMaster,
 		DefaultStringSize:         255,
 		DisableDatetimePrecision:  true,
 		DontSupportRenameIndex:    true,
 		DontSupportRenameColumn:   true,
 		SkipInitializeWithVersion: false,
-	}), &gorm.Config{
+	}
+
+	return config
+}
+
+func JawiConnect() (*sql.DB, *gorm.DB, error) {
+
+	err := godotenv.Load()
+	if err != nil {
+		return nil, nil, fmt.Errorf("error loading .env file")
+	}
+	// mysql connection
+	// dsn := "root:pass@tcp(127.0.0.1:3306)/dewan?charset=utf8mb3&parseTime=True&loc=Asia/Jakarta"
+	configDbMaster := os.Getenv("jawiDsn")
+	sqlDB, err := sql.Open("mysql", configDbMaster)
+	if err != nil {
+		return nil, nil, fmt.Errorf("%s", err)
+	}
+
+	config := mysqlConfig(configDbMaster)
+
+	dbMaster, err := gorm.Open(mysql.New(*config), &gorm.Config{
 		Logger:      logger.Default.LogMode(logger.Info),
 		QueryFields: true,
 		NowFunc: func() time.Time {
@@ -50,7 +60,7 @@ func JawiConnect() (*sql.DB, *gorm.DB, error) {
 		},
 	})
 	if err != nil {
-		return nil, nil, fmt.Errorf(fmt.Sprintf("jawi database connection error : %s", err))
+		return nil, nil, fmt.Errorf("jawi database connection error : %s", err)
 	}
 	// prevent global updates
 	dbMaster.Session(&gorm.Session{AllowGlobalUpdate: false})
@@ -74,16 +84,12 @@ func JawiLiveConnect() (*sql.DB, *gorm.DB, error) {
 	configDbMaster := os.Getenv("jawiLiveDsn")
 	sqlDB, err := sql.Open("mysql", configDbMaster)
 	if err != nil {
-		return nil, nil, fmt.Errorf(fmt.Sprintf("%s", err))
+		return nil, nil, fmt.Errorf("%s", err)
 	}
-	dbMaster, err := gorm.Open(mysql.New(mysql.Config{
-		DSN:                       configDbMaster,
-		DefaultStringSize:         255,
-		DisableDatetimePrecision:  true,
-		DontSupportRenameIndex:    true,
-		DontSupportRenameColumn:   true,
-		SkipInitializeWithVersion: false,
-	}), &gorm.Config{
+
+	config := mysqlConfig(configDbMaster)
+
+	dbMaster, err := gorm.Open(mysql.New(*config), &gorm.Config{
 		Logger:      logger.Default.LogMode(logger.Info),
 		QueryFields: true,
 		NowFunc: func() time.Time {
@@ -92,7 +98,7 @@ func JawiLiveConnect() (*sql.DB, *gorm.DB, error) {
 		},
 	})
 	if err != nil {
-		return nil, nil, fmt.Errorf(fmt.Sprintf("jawi live database connection error : %s", err))
+		return nil, nil, fmt.Errorf("jawi live database connection error : %s", err)
 	}
 	// prevent global updates
 	dbMaster.Session(&gorm.Session{AllowGlobalUpdate: false})
@@ -122,9 +128,9 @@ func (ns NullString) MarshalJSON() ([]byte, error) {
 
 func NullStringInput(s string) NullString {
 	if len(s) == 0 {
-		return NullString{sql.NullString{`null`, false}}
+		return NullString{sql.NullString{String: `null`, Valid: false}}
 	}
-	return NullString{sql.NullString{s, true}}
+	return NullString{sql.NullString{String: s, Valid: true}}
 }
 
 // parse null int on model
@@ -142,9 +148,9 @@ func (ni NullInt64) MarshalJSON() ([]byte, error) {
 
 func NullInt64Input(s int64) NullInt64 {
 	if s == 0 {
-		return NullInt64{sql.NullInt64{0, false}}
+		return NullInt64{sql.NullInt64{Int64: 0, Valid: false}}
 	}
-	return NullInt64{sql.NullInt64{s, true}}
+	return NullInt64{sql.NullInt64{Int64: s, Valid: true}}
 }
 
 // parse null time on model
@@ -163,9 +169,9 @@ func (nt NullDateTime) MarshalJSON() ([]byte, error) {
 
 func NullDateTimeInput(t time.Time) NullDateTime {
 	if t.IsZero() {
-		return NullDateTime{sql.NullTime{time.Time{}, false}}
+		return NullDateTime{sql.NullTime{Time: time.Time{}, Valid: false}}
 	}
-	return NullDateTime{sql.NullTime{t, true}}
+	return NullDateTime{sql.NullTime{Time: t, Valid: true}}
 }
 
 // date
@@ -183,9 +189,9 @@ func (nt NullDate) MarshalJSON() ([]byte, error) {
 
 func NullDateInput(t time.Time) NullDate {
 	if t.IsZero() {
-		return NullDate{sql.NullTime{time.Time{}, false}}
+		return NullDate{sql.NullTime{Time: time.Time{}, Valid: false}}
 	}
-	return NullDate{sql.NullTime{t, true}}
+	return NullDate{sql.NullTime{Time: t, Valid: true}}
 }
 
 // get Columns Name from Model
