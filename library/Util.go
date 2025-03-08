@@ -323,3 +323,24 @@ func hashPassword(password string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return string(hash), err
 }
+
+func dateToUnix(date string) (error, int64) {
+	var res int64
+	layout := "2006-01-02 15:04:05"
+	if IsDateValue(date) {
+		d, err := time.Parse(layout, date)
+		if err != nil {
+			return err, 0
+		}
+		res = d.Unix()
+	} else if IsDateTimeValue(date) {
+		dt, err := time.Parse(layout, date)
+		if err != nil {
+			return err, 0
+		}
+		res = dt.Unix()
+	} else {
+		return fmt.Errorf("Invalid date format"), res
+	}
+	return nil, res
+}

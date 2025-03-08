@@ -10,7 +10,7 @@ type ProvinceModel struct {
 }
 
 func (p *ProvinceModel) TableName() string {
-	return "province"
+	return "provinces"
 }
 
 func (p *ProvinceModel) BeforeCreate(tx *gorm.DB) (err error) {
