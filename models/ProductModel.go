@@ -19,9 +19,16 @@ type ProductModel struct {
 	UpdatedFields
 }
 
-type ProductModelResponse = ProductModel
+type ProductModelResponse struct {
+	ProductModel
+	DescriptionArray []string `json:"description_array"`
+}
 
 func (p *ProductModel) TableName() string {
+	return "product"
+}
+
+func (p *ProductModelResponse) TableName() string {
 	return "product"
 }
 

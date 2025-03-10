@@ -7,6 +7,12 @@ import (
 )
 
 type CoachModel struct {
+	CoachModelDefault
+	CreatedFields
+	UpdatedFields
+}
+
+type CoachModelDefault struct {
 	ID               NullString `gorm:"column:id;primary_key" json:"id"`
 	KontingenID      NullString `gorm:"column:kontingen_id" json:"kontingen_id"`
 	GenderID         NullString `gorm:"column:gender_id" json:"gender_id"`
@@ -17,12 +23,10 @@ type CoachModel struct {
 	Photo            NullString `gorm:"column:photo" json:"photo"`
 	Status           int        `gorm:"column:status;default:1" json:"status"`
 	INC              int        `gorm:"<-:false;column:inc" json:"inc"`
-	CreatedFields
-	UpdatedFields
 }
 
 type CoachModelResponse struct {
-	CoachModel
+	CoachModelDefault
 	KontingenInfo KontingenModelResponse `gorm:"->;foreignKey:KontingenID;references:ID" json:"kontingen_info"`
 	GenderInfo    GenderModelResponse    `gorm:"->;foreignKey:GenderID;references:ID" json:"gender_info"`
 }

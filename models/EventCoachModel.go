@@ -7,18 +7,22 @@ import (
 )
 
 type EventCoachModel struct {
+	EventCoachModelDefault
+	CreatedFields
+	UpdatedFields
+}
+
+type EventCoachModelDefault struct {
 	ID      NullString `gorm:"column:id;primary_key" json:"id"`
 	EventID NullString `gorm:"column:event_id" json:"event_id"`
 	CoachID NullString `gorm:"column:coach_id" json:"coach_id"`
 	QRCode  NullString `gorm:"column:qrcode" json:"qrcode"`
 	INC     int        `gorm:"<-:false;column:inc" json:"inc"`
 	Status  int        `gorm:"column:status;default:1" json:"status"`
-	CreatedFields
-	UpdatedFields
 }
 
 type EventCoachModelResponse struct {
-	EventCoachModel
+	EventCoachModelDefault
 	EventInfo EventsModelResponse `gorm:"->;foreignKey:EventID;references:ID" json:"event_info"`
 	CoachInfo CoachModelResponse  `gorm:"->;foreignKey:CoachID;references:ID" json:"coach_info"`
 }

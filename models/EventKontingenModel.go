@@ -7,6 +7,12 @@ import (
 )
 
 type EventKontingenModel struct {
+	EventKontingenModelDefault
+	CreatedFields
+	UpdatedFields
+}
+
+type EventKontingenModelDefault struct {
 	ID               NullString `gorm:"column:id;primary_key" json:"id"`
 	EventID          NullString `gorm:"column:event_id" json:"event_id"`
 	Name             NullString `gorm:"column:name" json:"name"`
@@ -14,12 +20,10 @@ type EventKontingenModel struct {
 	Paid             int        `gorm:"column:paid;default:0" json:"paid"`
 	InvoicePaymentID NullString `gorm:"column:invoice_payment_id" json:"invoice_payment_id"`
 	INC              int        `gorm:"<-:false;column:inc" json:"inc"`
-	CreatedFields
-	UpdatedFields
 }
 
 type EventKontingenModelResponse struct {
-	EventKontingenModel
+	EventKontingenModelDefault
 	EventInfo EventsModelResponse `gorm:"->;foreignKey:EventID;references:ID" json:"event_info"`
 }
 

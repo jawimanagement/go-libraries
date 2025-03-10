@@ -7,6 +7,12 @@ import (
 )
 
 type PesertaModel struct {
+	PesertaModelDefault
+	CreatedFields
+	UpdatedFields
+}
+
+type PesertaModelDefault struct {
 	ID               NullString `gorm:"column:id;primary_key" json:"id"`
 	Name             NullString `gorm:"column:name" json:"name"`
 	KontingenID      NullString `gorm:"column:kontingen_id" json:"kontingen_id"`
@@ -22,14 +28,12 @@ type PesertaModel struct {
 	Status           int        `gorm:"column:status;default:1" json:"status"`
 	PhoneCountryCode NullString `gorm:"column:phone_country_code" json:"phone_country_code"`
 	Phone            NullString `gorm:"column:phone" json:"phone"`
-	CreatedFields
-	UpdatedFields
 }
 
 type PesertaModelResponse struct {
-	PesertaModel
-	GenderInfo    GenderModelResponse    `gorm:"->;primaryKey:GenderID;references:ID" json:"gender_info"`
-	KontingenInfo KontingenModelResponse `gorm:"->;primaryKey:KontingenID;references:ID" json:"kontingen_info"`
+	PesertaModelDefault
+	GenderInfo    GenderModelResponse    `gorm:"->;foreignKey:GenderID;references:ID" json:"gender_info"`
+	KontingenInfo KontingenModelResponse `gorm:"->;foreignKey:KontingenID;references:ID" json:"kontingen_info"`
 }
 
 func (p *PesertaModel) TableName() string {

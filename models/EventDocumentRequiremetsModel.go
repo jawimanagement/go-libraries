@@ -7,6 +7,12 @@ import (
 )
 
 type EventDocumentRequiremetsModel struct {
+	EventDocumentRequiremetsModelDefault
+	CreatedFields
+	UpdatedFields
+}
+
+type EventDocumentRequiremetsModelDefault struct {
 	ID      NullString `gorm:"column:id;primary_key" json:"id"`
 	EventID NullString `gorm:"column:event_id" json:"event_id"`
 	Ijazah  int        `gorm:"column:ijazah;default:0" json:"ijazah"`
@@ -15,13 +21,17 @@ type EventDocumentRequiremetsModel struct {
 	KK      int        `gorm:"column:kk;default:0" json:"kk"`
 	Sehat   int        `gorm:"column:sehat;default:0" json:"sehat"`
 	Izin    int        `gorm:"column:izin;default:0" jso:"izin"`
-	CreatedFields
-	UpdatedFields
 }
 
-type EventDocumentRequiremetsModelResponse = EventDocumentRequiremetsModel
+type EventDocumentRequiremetsModelResponse struct {
+	EventDocumentRequiremetsModelDefault
+}
 
 func (p *EventDocumentRequiremetsModel) TableName() string {
+	return "event_document_requirements"
+}
+
+func (p *EventDocumentRequiremetsModelResponse) TableName() string {
 	return "event_document_requirements"
 }
 

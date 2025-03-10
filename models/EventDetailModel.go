@@ -7,6 +7,12 @@ import (
 )
 
 type EventDetailModel struct {
+	EventDetailModelDefault
+	CreatedFields
+	UpdatedFields
+}
+
+type EventDetailModelDefault struct {
 	ID         NullString `gorm:"column:id;primary_key" json:"id"`
 	EventID    NullString `gorm:"column:event_id" json:"event_id"`
 	KategoriID NullString `gorm:"column:kategori_id" json:"kategori_id"`
@@ -19,12 +25,10 @@ type EventDetailModel struct {
 	MaxBabak   int        `gorm:"column:max_babak;default:3" json:"max_babak"`
 	INC        int        `gorm:"<-:false;column:inc" json:"inc"`
 	Active     int        `gorm:"column:active;default:1" json:"active"`
-	CreatedFields
-	UpdatedFields
 }
 
 type EventDetailModelResponse struct {
-	EventDetailModel
+	EventDetailModelDefault
 	EventInfo    EventsModelResponse       `gorm:"->;foreignKey:EventID;references:ID" json:"event_info"`
 	KategoriInfo KategoriModelResponse     `gorm:"->;foreignKey:KategoriID;references:ID" json:"kategori_info"`
 	GenderInfo   GenderModelResponse       `gorm:"->;foreignKey:GenderID;references:ID" json:"gender_info"`

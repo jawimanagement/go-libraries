@@ -7,6 +7,12 @@ import (
 )
 
 type CartModel struct {
+	CartModelDefault
+	CreatedFields
+	UpdatedFields
+}
+
+type CartModelDefault struct {
 	ID               NullString `gorm:"column:id;primary_key" json:"id"`
 	UserID           NullString `gorm:"column:user_id" json:"user_id"`
 	EventID          NullString `gorm:"column:event_id" json:"event_id"`
@@ -17,12 +23,10 @@ type CartModel struct {
 	AdditionalID     NullString `gorm:"column:additional_id" json:"additioal_id"`
 	Price            float64    `gorm:"column:price;default:0" json:"price"`
 	Qty              NullInt64  `gorm:"column:qty" json:"qty"`
-	CreatedFields
-	UpdatedFields
 }
 
 type CartModelResponse struct {
-	CartModel
+	CartModelDefault
 	EventInfo          EventsModelResponse         `gorm:"->;foreignKey:EventID;references:ID" json:"event_info"`
 	EventKontingenInfo EventKontingenModelResponse `gorm:"->;foreignKey:EventKontingenID;references:ID" json:"event_kontingen_info"`
 	EventDetailInfo    EventDetailModelResponse    `gorm:"->;foreignKey:EventDetailID;references:ID" json:"event_detail_info"`

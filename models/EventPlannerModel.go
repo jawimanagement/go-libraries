@@ -7,6 +7,12 @@ import (
 )
 
 type EventPlannerModel struct {
+	EventPlannerModelResponse
+	CreatedFields
+	UpdatedFields
+}
+
+type EventPlannerModelResponse struct {
 	ID               NullString `gorm:"column:id;primary_key" json:"id"`
 	Name             NullString `gorm:"column:name" json:"name"`
 	UserID           NullString `gorm:"column:user_id" json:"user_id"`
@@ -18,13 +24,13 @@ type EventPlannerModel struct {
 	Status           int        `gorm:"column:status;default:1" json:"column:status"`
 	BankAccount      NullString `gorm:"column:bank_account" json:"bank_account"`
 	BankAccountOwner NullString `gorm:"column:bank_account_owner" json:"bank_account_owner"`
-	CreatedFields
-	UpdatedFields
 }
 
-type EventPlannerModelResponse = EventPlannerModel
-
 func (p *EventPlannerModel) TableName() string {
+	return "event_planner"
+}
+
+func (p *EventPlannerModelResponse) TableName() string {
 	return "event_planner"
 }
 

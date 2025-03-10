@@ -7,6 +7,12 @@ import (
 )
 
 type EventPesertaModel struct {
+	EventPesertaModelDefault
+	CreatedFields
+	UpdatedFields
+}
+
+type EventPesertaModelDefault struct {
 	ID               NullString `gorm:"column:id;primary_key" json:"id"`
 	EventID          NullString `gorm:"column:event_id" json:"event_id"`
 	KontingenID      NullString `gorm:"column:kontingen_id" json:"kontingen_id"`
@@ -18,12 +24,10 @@ type EventPesertaModel struct {
 	Status           int        `gorm:"column:status;default:0" json:"status"`
 	Paid             int        `gorm:"column:paid;default:0" json:"paid"`
 	InvoicePaymentID NullString `gorm:"column:invoice_payment_id" json:"invoice_payment_id"`
-	CreatedFields
-	UpdatedFields
 }
 
 type EventPesertaModelResponse struct {
-	EventPesertaModel
+	EventPesertaModelDefault
 	InvoicePaymentInfo InvoicePaymentModelResponse `gorm:"->;foreignKey:InvoicePaymentID;references:ID" json:"invoice_payment_info"`
 	PesertaInfo        PesertaModelResponse        `gorm:"->;foreignKey:PesertaID;references:ID" json:"peserta_info"`
 	EventDetailInfo    EventDetailModelResponse    `gorm:"->;foreignKey:EventDetailID;references:ID" json:"event_detail_info"`
